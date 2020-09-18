@@ -1,0 +1,26 @@
+1. Wire Framing: Draw rough sketch of what you are actually going to build.
+
+2. Functionality:
+  * Sign in
+  * Sign up
+  * Create a channel
+  * Send message in a channel
+  * Join a channel
+  * Search a channel
+
+3. Data
+  * users
+  * channels
+  * messages
+
+4. UI Components
+* Slack
+  * Side Bar
+    * List Of Channels
+    *List Of Direct Messages
+  * Main Container
+    * Header
+    * Messages
+    * Create Message
+  * Sign In
+  * Sign Up
