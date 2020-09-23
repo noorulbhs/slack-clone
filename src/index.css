@@ -234,3 +234,29 @@ code {
 .hideEditMessage{
   display: none;
 }
+
+.profile-detail{
+  margin-left: 40%;
+  border: 1px solid grey;
+  width: 40%;
+  height: 400px;
+}
+ .photo img{
+   width: 100%;
+   height:60%;
+ }
+.profile-detail button{
+  margin-top: 10px;
+    background-color: #ade6d8;
+    height: 30px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+.messageButton{
+  margin-left:30px;
+  width: 100px;
+}
+
+.callButton{
+  width: 60px;
+}

@@ -120,7 +120,7 @@ function Slack(props){
 
     return(
         <div id="slack">
-          <SideBar channels={channels} channelName={channelName} nameChanged={nameChanged} channelDescription={channelDescription} description={description} addChannel={addChannel} displayBlock={displayBlock} classes={classes}/>
+          <SideBar channels={channels} currentChannel={currentChannel} channelName={channelName} nameChanged={nameChanged} channelDescription={channelDescription} description={description} addChannel={addChannel} displayBlock={displayBlock} classes={classes}/>
           <MainContainer channel={currentChannel} updatedChannel={updatedChannel} editChannelName={editChannelName} onEnter={onEnter} editChannelClass={editChannelClass} showEditChannel={showEditChannel}/>
         </div>
     );

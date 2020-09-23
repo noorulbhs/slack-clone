@@ -1,22 +1,40 @@
-import React,{useState,useContext} from "react";
-import {signOut,firestore,auth} from "../firebase";
+import React,{useState,useContext,useEffect} from "react";
+import {signOut,firestore,auth,fieldValue} from "../firebase";
 import {Link} from "react-router-dom";
 
 
 function SideBar(props){
+
   const [users,setUsers]=useState([]);
-  function fetcUsers(){
-  firestore.collection("users")
-  .get()
-  .then((snapshot)=>{
-    const u=snapshot.docs.map(doc=>{
-      return {id:doc.id,...doc.data()};
-  });
-  setUsers(u);
-  console.log();
-  console.log(users);
+
+
+  function fetchUsers(){
+    firestore.collection("users")
+    .get()
+    .then((snapshot)=>{
+      const u=snapshot.docs.map(doc=>{
+        return {id:doc.id,...doc.data()};
+      });
+      setUsers(u);
 });
 }
+
+function addUser(id){
+  console.log("ID",id);
+  console.log("CurrentID",props.currentChannel.id);
+  firestore.collection("channels")
+  .doc(props.currentChannel.id)
+  .update({
+    age:"23",
+    members:fieldValue.arrayUnion(id)
+  });
+}
+
+
+useEffect(()=>{
+  fetchUsers();
+  console.log("USERSSS",users);
+},[props.currentChannel])
 
     return(
         <div id="sidebar">
@@ -46,17 +64,22 @@ function SideBar(props){
             {props.channels.map((channel)=>(
               <li key={channel.id}>
                 <Link to={`/?id=${channel.id}`}># {channel.name}</Link>
-                <span style={{display: "flex",cursor:"pointer"}} onClick={fetcUsers}>+</span>
-                <div>{users.map(user=>(
-                  <div>
-                    <div>{user.displayName}</div>
-                    <div>Hello</div>
-                  </div>
-                ))}
-                </div>
               </li>
             ))}
           </ul>
+          <div style={{marginLeft:20,color:"white",marginBottom:15}}>Members
+            <span style={{cursor:"pointer",color:"white",marginLeft:10,cursor:"pointer",marginLeft: 114}} onClick={fetchUsers}>+</span>
+            <div>{users.map((user,index)=>(
+              <div key={index}>
+                <div style={{marginTop:10,marginLeft:10,color:"red"}} onClick={()=>addUser(user.id)}>
+                  <ul style={{listStyleType:"none",margin: "0px",padding: "0px"}}>
+                    <li># {user.display_name}</li>
+                  </ul>
+                </div>
+                </div>
+              ))}
+              </div>
+            </div>
         </div>
       </div>
     );

@@ -11,7 +11,7 @@ function MainContainer(props){
   const [id,setId]=useState("");
   const [classes,setClasses]=useState("hideEditMessage");
   const [show,setShow]=useState(false);
-
+  const [user,setUser]=useState([]);
 
   function fetchMessages(){
     if(!channel.id) return;
@@ -25,11 +25,14 @@ function MainContainer(props){
         return {id:doc.id,...doc.data()};
       });
       setMessages(messages);
+      // console.log("messagesState",messages);
     });
+
   }
 
 useEffect(()=>{
   fetchMessages();
+  console.log("messages",messages);
 },[channel,clicked]);
 
 function handleUserMessage(e){
@@ -91,6 +94,16 @@ function editMessages(event){
   }
 }
 
+function userDetail(id){
+  console.log(id);
+  firestore.collection("users")
+  .doc(id)
+  .get()
+  .then((snapshot)=>{
+    setUser(snapshot.data());
+  })
+}
+
     return(
       <div id="main-container">
         <div className="about-channel">
@@ -113,7 +126,7 @@ function editMessages(event){
             </div>
             <div className="right-block">
               <div className="user">
-                <div>{message.from.name}</div>
+                <div onClick={()=>userDetail(message.from.id)}>{message.from.name}</div>
                 <span>1:21 PM</span>
               </div>
               <div className="user-message">{message.text}
@@ -126,7 +139,13 @@ function editMessages(event){
           </div>
         ))}
       </div>
+          <div className="profile-detail">
+              <div className="photo"><img src={user.photo_url} alt="profile_pic"/></div>
+              <div>{user.display_name}</div>
+              <button className="messageButton">Message</button>
+              <button className="callButton">Call</button>
 
+          </div>
         <div className="chat-box">
           <textarea placeholder="Type something and press enter ..." value={userMessage} onChange={handleUserMessage} onKeyDown={onEnterPress}></textarea>
         </div>
